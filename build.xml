@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<project name="SDF_FINAL" default="jar" basedir=".">
+
+    <!-- naming the directories-->
+    <property name="src.dir"     value="src/main/java"/>
+    <property name="build.dir"   value="out"/>
+    <property name="jar.dir"     value="jar"/>
+    <property name="jar.name"    value="arbitraryarithmetic.jar"/>
+
+    <!---->
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${jar.dir}"/>
+    </target>
+
+    <!---->
+    <target name="compile" depends="init">
+        <javac includeantruntime="false" destdir="${build.dir}">
+            <src path="${src.dir}"/>
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+
+    <!-- Creating a jar with all classes-->
+    <target name="jar" depends="compile">
+        <jar destfile="src\main\java\arbitraryarithmetic\arithmetic.jar" basedir="${build.dir}">
+            <fileset dir="${build.dir}" includes="**/*.class"/>
+            <manifest>
+            <attribute name="Main-Class" value="MyInfArith"/>
+        </manifest>
+        </jar>
+        <echo message="JAR created at ${jar.dir}/${jar.name}"/>
+    </target>
+
+    <!-- Clean build and jar outputs -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${jar.dir}"/>
+        <echo message="Cleaned build and jar directories."/>
+    </target>
+
+</project>
