@@ -30,15 +30,15 @@ It includes:
 javac -d out src/main/java/arbitraryarithmetic/*.java src/main/java/MyInfArith.java
 java -cp out MyInfArith int add 123456789 987654321
 ```
-### Examples
+## Examples
 
-# Integer addition
+### Integer addition
 ```bash
 java MyInfArith int add 12345678901234567890 98765432109876543210
 ```
-# Output: 111111111011111111100
-# Float division
+### Output: 111111111011111111100
+### Float division
 ```bash
 java MyInfArith float div 244727.15202 75964.3891
 ```
-# Output: 3.22160363453775211100855150561
+### Output: 3.22160363453775211100855150561
