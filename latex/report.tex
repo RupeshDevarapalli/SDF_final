@@ -1,0 +1,110 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{amsmath}
+
+\usepackage{caption}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{\textbf{Arbitrary Precision Arithmetic in Java}\\
+\large CS1023 - Software Development Fundamentals Project Report}
+\author{Devarapalli Rupesh \\ cs24btech11023}
+\date{May 2025}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+This project implements an infinite/arbitrary-precision arithmetic library in Java. It supports all four basic arithmetic operations for both integers and floating point numbers, without relying on Java's built-in `BigInteger` or `BigDecimal`.
+
+The goal was to simulate manual operations (addition, subtraction, multiplication, division) using string-based digit manipulation to preserve full precision, especially for very large numbers.
+
+\section{Project Structure}
+
+\subsection{Packages and Classes}
+\begin{itemize}
+    \item \textbf{arbitraryarithmetic.AInteger} -- Implements arbitrary-precision signed integers.
+    \item \textbf{arbitraryarithmetic.AFloat} -- Implements arbitrary-precision floating point using scaled integers.
+    \item \textbf{MyInfArith} -- Command-line interface to perform arithmetic operations.
+\end{itemize}
+
+\subsection{Folder Structure}
+\begin{verbatim}
+SDF_final|
+├── src/
+│   └── main/java/
+│       ├── arbitraryarithmetic/
+│       │   ├── AInteger.java
+│       │   └── AFloat.java
+│       └── MyInfArith.java
+├── out/
+├── script2.py
+├── build.xml
+\end{verbatim}
+
+\section{Design Overview}
+
+\subsection{AInteger}
+\texttt{AInteger} uses strings to represent large integers and implements arithmetic operations by processing digits manually. Signs are tracked with a boolean flag.
+
+\begin{itemize}
+    \item Internal format: \texttt{String value}, \texttt{boolean isNeg}
+    \item Operations: \texttt{add()}, \texttt{subtract()}, \texttt{multiply()}, \texttt{divide()}
+\end{itemize}
+
+\subsection{AFloat}
+\texttt{AFloat} stores a scaled version of the number using \texttt{AInteger}, where decimal digits are tracked via an integer scale. Arithmetic is performed by adjusting scales to a common base.
+
+\subsection{Command Line Interface}
+\texttt{MyInfArith} parses command-line arguments like:
+
+\begin{verbatim}
+java MyInfArith int add 123456 7890
+java MyInfArith float div 244727.15202 75964.3891
+\end{verbatim}
+
+\section{Sample Outputs}
+
+\subsection*{Integer Addition}
+\texttt{java MyInfArith int add 23650078224912949497310933240250 42939783262467113798386384401498}
+
+\textbf{Output:} 66589861487380063295697317641748
+
+\subsection*{Float Division}
+\texttt{java MyInfArith float div 244727.15202 75964.3891}
+
+\textbf{Output:} 3.22160363453775211100855150561
+
+\section{Build and Run Instructions}
+
+\subsection{Using Ant}
+\begin{verbatim}
+ant clean
+ant jar
+java -cp out MyInfArith int add 123 456
+\end{verbatim}
+
+\subsection{Using Python Script}
+\begin{verbatim}
+python src/script2.py int sub 123456789 98765
+\end{verbatim}
+
+% (Screenshot of Git log or commit history)
+\section{Learnings}
+\begin{itemize}
+    \item Implementing arithmetic from scratch builds a deep understanding of digit-level logic.
+    \item Managing large numbers without built-in types requires careful handling of strings and scale.
+    \item Automating builds and scripting Java CLI execution improves development flow.
+\end{itemize}
+
+\section{Limitations}
+\begin{itemize}
+    \item Float division limited to 30 decimal digits as required.
+    \item No support for full expression evaluation or parenthesis.
+    \item No advanced error recovery for malformed input (assumes input is valid).
+\end{itemize}
+
+\end{document}

@@ -68,7 +68,7 @@ public class AInteger {
             }
         }
     }
-
+    //subtraction
     public AInteger subtract(AInteger other) { 
         // change the sign of the second num and add them
         AInteger negOther = new AInteger(other);

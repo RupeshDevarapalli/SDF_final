@@ -27,7 +27,7 @@
             <fileset dir="${build.dir}" includes="**/*.class"/>
             <manifest>
             <attribute name="Main-Class" value="MyInfArith"/>
-        </manifest>
+            </manifest>
         </jar>
         <echo message="JAR created at ${jar.dir}/${jar.name}"/>
     </target>

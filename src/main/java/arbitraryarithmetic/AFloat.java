@@ -2,79 +2,92 @@ package arbitraryarithmetic;
 
 public class AFloat {
     private AInteger rawValue;
-    private int scale;
+    private int decidigs;
         public AFloat() {
         this.rawValue = new AInteger("0");
-        this.scale = 1;
+        this.decidigs = 1;
     }
 
+
+
     public AFloat(String s) {
+        // here we take out the "." from the string and perfomr operations, for that we split the string at "."and combine them again
         if (!s.contains(".")) {
+            // case for ".", make it an integer an move on
             rawValue = new AInteger(s);
-            scale = 0;
+            decidigs = 0;
         } else {
+            
             boolean isNegative = s.startsWith("-");
             String[] parts = s.replace("-", "").split("\\.");
             rawValue = new AInteger(parts[0] + parts[1]);
             if (isNegative) rawValue.isNeg = true;
-            scale = parts[1].length();
+            decidigs = parts[1].length();
         }
     }
 
-    public AFloat(AInteger raw, int scale) {
-        this.rawValue = new AInteger(raw);
-        this.scale = scale;
-    }
 
+
+    public AFloat(AInteger raw, int decidigs) {
+        this.rawValue = new AInteger(raw);
+        this.decidigs = decidigs;
+    }
     public static AFloat parse(String s) {
         return new AFloat(s);
     }
 
     public AFloat add(AFloat other) {
-        int maxScale = Math.max(this.scale, other.scale);
-        AInteger scaledThis = scaleUp(this.rawValue, this.scale, maxScale);
-        AInteger scaledOther = scaleUp(other.rawValue, other.scale, maxScale);
-        AInteger sum = scaledThis.add(scaledOther);
-        return new AFloat(sum, maxScale);
+        // 
+        int maxdecidigs = Math.max(this.decidigs, other.decidigs);
+        AInteger newThis = addZeroes(this.rawValue, this.decidigs, maxdecidigs);
+        AInteger newOther = addZeroes(other.rawValue, other.decidigs, maxdecidigs);
+        AInteger sum = newThis.add(newOther);
+        return new AFloat(sum, maxdecidigs);
     }
+
+
 
     public AFloat subtract(AFloat other) {
-        int maxScale = Math.max(this.scale, other.scale);
-        AInteger scaledThis = scaleUp(this.rawValue, this.scale, maxScale);
-        AInteger scaledOther = scaleUp(other.rawValue, other.scale, maxScale);
-        AInteger diff = scaledThis.subtract(scaledOther);
-        return new AFloat(diff, maxScale);
+        int maxdecidigs = Math.max(this.decidigs, other.decidigs);
+        AInteger newThis = addZeroes(this.rawValue, this.decidigs, maxdecidigs);
+        AInteger newOther = addZeroes(other.rawValue, other.decidigs, maxdecidigs);
+        AInteger diff = newThis.subtract(newOther);
+        return new AFloat(diff, maxdecidigs);
     }
-
     public AFloat multiply(AFloat other) {
         AInteger product = this.rawValue.multiply(other.rawValue);
-        return new AFloat(product, this.scale + other.scale);
+        return new AFloat(product, this.decidigs + other.decidigs);
     }
 
+
+
     public AFloat divide(AFloat other) {
-        AInteger scaledDividend = scaleUp(this.rawValue, this.scale, this.scale + 30);
-        AInteger result = scaledDividend.divide(other.rawValue);
+        AInteger newDividend = addZeroes(this.rawValue, this.decidigs, this.decidigs + 30);
+        AInteger result = newDividend.divide(other.rawValue);
         return new AFloat(result, 30);
     }
 
-    private AInteger scaleUp(AInteger num, int currentScale, int targetScale) {
-        int zerosToAdd = targetScale - currentScale;
+
+    private AInteger addZeroes(AInteger num, int currentdigs, int targetdigs) {
+        int zerosToAdd = targetdigs - currentdigs;
         String newVal = num.value + "0".repeat(zerosToAdd);
         AInteger result = new AInteger(newVal);
         result.isNeg = num.isNeg;
         return result;
     }
 
+
+
     @Override
     public String toString() {
         String raw = rawValue.value;
         boolean neg = rawValue.isNeg;
-        if (scale == 0) return (neg ? "-" : "") + raw;
+        if (decidigs == 0) return (neg ? "-" : "") + raw;
 
-        while (raw.length() <= scale) raw = "0" + raw;
+        while (raw.length() <= decidigs) raw = "0" + raw;
 
-        String intPart = raw.substring(0, raw.length() - scale);
-        String fracPart = raw.substring(raw.length() - scale);
+        String intPart = raw.substring(0, raw.length() - decidigs);
+        String fracPart = raw.substring(raw.length() - decidigs);
 
         return (neg ? "-" : "") + intPart + "." + fracPart.replaceFirst("0+$", "");
     }
