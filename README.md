@@ -11,3 +11,21 @@ It includes:
 - A command-line interface (`MyInfArith`) to perform calculations via terminal
 - No built-in large number libraries (e.g., `BigInteger`, `BigDecimal`) used
 - Operations implemented manually using string manipulations
+- `arbitraryarithmetic.AInteger`: Arbitrary precision signed integer class
+- `arbitraryarithmetic.AFloat`: Arbitrary precision float using scaled `AInteger`
+- `MyInfArith`: Command-line tool to evaluate expressions
+
+---
+
+## ⚙️ How to Build and Run
+
+### ✅ Requirements
+
+- Java 17+ (or compatible version)
+- Python 3 (for automation script)
+
+### 🔧 Compile and Run (Manual)
+
+```bash
+javac -d out src/main/java/arbitraryarithmetic/*.java src/main/java/MyInfArith.java
+java -cp out MyInfArith int add 123456789 987654321

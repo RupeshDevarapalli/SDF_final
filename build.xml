@@ -10,7 +10,6 @@
     <!---->
     <target name="init">
         <mkdir dir="${build.dir}"/>
-        <mkdir dir="${jar.dir}"/>
     </target>
 
     <!---->
