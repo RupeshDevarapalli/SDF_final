@@ -17,14 +17,14 @@ It includes:
 
 ---
 
-## ⚙️ How to Build and Run
+## How to Build and Run
 
-### ✅ Requirements
+### Requirements
 
 - Java 17+ (or compatible version)
 - Python 3 (for automation script)
 
-### 🔧 Compile and Run (Manual)
+### Compile and Run (Manual)
 
 ```bash
 javac -d out src/main/java/arbitraryarithmetic/*.java src/main/java/MyInfArith.java
