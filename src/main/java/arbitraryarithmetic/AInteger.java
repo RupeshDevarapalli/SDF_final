@@ -1,23 +1,20 @@
 package arbitraryarithmetic;
 
-
-
 public class AInteger {
-    private String value;
-    private boolean isNeg;
+    protected String value;
+    protected boolean isNeg;
 
     public AInteger() {
-        this.value = "0";
-        this.isNeg = false;
+        this("0");
     }
 
     public AInteger(String s) {
         if (s.startsWith("-")) {
-            this.isNeg = true;
-            this.value = s.substring(1);
+            isNeg = true;
+            value = s.substring(1);
         } else {
-            this.isNeg = false;
-            this.value = s;
+            isNeg = false;
+            value = s;
         }
         normalize();
     }
@@ -31,7 +28,7 @@ public class AInteger {
         return new AInteger(s);
     }
 
-    private void normalize() {
+    public void normalize() {
         value = value.replaceFirst("^0+(?!$)", "");
         if (value.equals("0")) isNeg = false;
     }
@@ -41,15 +38,15 @@ public class AInteger {
     }
 
     private int compare(AInteger other) {
-        if (this.value.length() != other.value.length())
-            return this.value.length() - other.value.length();
-        return this.value.compareTo(other.value);
+        if (value.length() != other.value.length())
+            return value.length() - other.value.length();
+        return value.compareTo(other.value);
     }
 
     private AInteger makePositive() {
-        AInteger result = new AInteger(this);
-        result.isNeg = false;
-        return result;
+        AInteger pos = new AInteger(this);
+        pos.isNeg = false;
+        return pos;
     }
 
     public AInteger add(AInteger other) {
@@ -83,9 +80,7 @@ public class AInteger {
     }
 
     public AInteger divide(AInteger other) {
-        if (other.isZero())
-            throw new ArithmeticException("Division by zero");
-
+        if (other.isZero()) throw new ArithmeticException("Division by zero");
         AInteger result = new AInteger(divideStrings(this.value, other.value));
         result.isNeg = this.isNeg != other.isNeg;
         return result;
@@ -133,9 +128,8 @@ public class AInteger {
             }
         }
         StringBuilder sb = new StringBuilder();
-        for (int r : result) {
+        for (int r : result)
             if (!(sb.length() == 0 && r == 0)) sb.append(r);
-        }
         return sb.length() == 0 ? "0" : sb.toString();
     }
 
@@ -155,13 +149,9 @@ public class AInteger {
         }
         return result.toString().replaceFirst("^0+(?!$)", "");
     }
+
     @Override
     public String toString() {
-        return (isNeg ? "-" : "") + value;
-    }
-
-    public static void main(String[] args) {
-        AInteger result = new AInteger("123456789").add(new AInteger("1234567890"));
-        System.out.println("Add positive: " + result);
+        return (isNeg && !value.equals("0") ? "-" : "") + value;
     }
 }
